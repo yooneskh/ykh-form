@@ -44,6 +44,7 @@ export default {
     'y-form-element-radios': require('./y-form-elements/y-form-element-radios.vue').default,
     'y-form-element-textarea': require('./y-form-elements/y-form-element-textarea.vue').default,
     'y-form-element-simple-file': require('./y-form-elements/y-form-element-simple-file.vue').default,
+    'y-form-element-file-array': () => import('./y-form-elements/y-form-element-file-array.vue' /* webpackChunkName: 'y-form-element-file-array' */),
     'y-form-element-series': () => import('./y-form-series' /* webpackChunkName: 'y-form-series' */),
     'y-form-element-color': () => import('./y-form-elements/y-form-element-color.vue' /* webpackChunkName: 'y-form-element-color' */),
     'y-form-element-date': () => import('./y-form-elements/y-form-element-date.vue' /* webpackChunkName: 'y-form-element-date' */),
