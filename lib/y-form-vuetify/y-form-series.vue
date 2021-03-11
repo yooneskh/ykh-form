@@ -121,6 +121,10 @@ export default {
         ]
       );
 
+      await this.$nextTick();
+      this.$forceUpdate();
+
+      if (this.field.itemFields.some(it => it.rules?.length > 0)) this.$emit('update:valid', false);
       this.$emit('update:key', this.field.key, this.target[this.field.key]);
 
     },
