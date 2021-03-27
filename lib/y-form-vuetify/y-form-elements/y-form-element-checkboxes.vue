@@ -6,7 +6,7 @@
     </span>
 
     <v-checkbox
-      v-for="(item, index) in field.items"
+      v-for="(item, index) in fieldItems"
       :key="item.value"
       hide-details
       :label="item.text"
@@ -45,14 +45,35 @@ import { YFormElementMixin } from '../mixins/y-form-element-mixin';
 
 export default {
   name: 'YFormElementCheckboxes',
+  mixins: [YFormElementMixin],
   props: {
+    target: { },
     value: { },
     field: {
       type: Object,
       required: true
     }
   },
-  mixins: [YFormElementMixin],
+  data: () => ({
+    loading: false
+  }),
+  asyncComputed: {
+    fieldItems: {
+      default: [],
+      async get() {
+
+        if (typeof this.field.items === 'function') {
+          this.loading = true;
+          const result = await this.field.items(this.target);
+          this.loading = false;
+          return result;
+        }
+
+        return this.field.items;
+
+      }
+    }
+  },
   methods: {
     async handleChange(value, item) {
       this.$emit('input', value, item.value);

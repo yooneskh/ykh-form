@@ -17,7 +17,7 @@
     @change="handleChange"
     style="text-align: unset;">
     <v-radio
-      v-for="(item, index) in field.items"
+      v-for="(item, index) in fieldItems"
       :key="item.value || item"
       :label="item.text || item"
       :value="item.value || item"
@@ -38,14 +38,35 @@ import { YFormElementMixin } from '../mixins/y-form-element-mixin';
 
 export default {
   name: 'YFormElementRadios',
+  mixins: [YFormElementMixin],
   props: {
+    target: { },
     value: { },
     field: {
       type: Object,
       required: true
     }
   },
-  mixins: [YFormElementMixin],
+  data: () => ({
+    loading: false
+  }),
+  asyncComputed: {
+    fieldItems: {
+      default: [],
+      async get() {
+
+        if (typeof this.field.items === 'function') {
+          this.loading = true;
+          const result = await this.field.items(this.target);
+          this.loading = false;
+          return result;
+        }
+
+        return this.field.items;
+
+      }
+    }
+  },
   methods: {
     async handleChange(value) {
       this.$emit('input', value);

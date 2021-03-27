@@ -3,6 +3,7 @@
     v-if="field.addable"
     filled
     :label="field.title"
+    :loading="loading"
     :items="fieldItems"
     :chips="field.multiple" deletable-chips :small-chips="field.multiple"
     :multiple="field.multiple"
@@ -24,6 +25,7 @@
     v-else-if="field.searchable"
     filled
     :label="field.title"
+    :loading="loading"
     :items="fieldItems"
     :chips="field.multiple" deletable-chips :small-chips="field.multiple"
     :multiple="field.multiple"
@@ -45,6 +47,7 @@
     v-else
     :filled="!field.unfilled"
     :label="field.title"
+    :loading="loading"
     :items="fieldItems"
     :multiple="field.multiple"
     :value="value"
@@ -69,24 +72,33 @@ import { YFormElementMixin } from '../mixins/y-form-element-mixin'
 
 export default {
   name: 'YFormElementSelect',
+  mixins: [YFormElementMixin],
   props: {
-    value: { },
     target: { },
+    value: { },
     field: {
       type: Object,
       required: true
     }
   },
-  mixins: [YFormElementMixin],
-  computed: {
-    fieldItems() {
+  data: () => ({
+    loading: false
+  }),
+  asyncComputed: {
+    fieldItems: {
+      default: [],
+      async get() {
 
-      if (typeof this.field.items === 'function') {
-        return this.field.items(this.target);
+        if (typeof this.field.items === 'function') {
+          this.loading = true;
+          const result = await this.field.items(this.target);
+          this.loading = false;
+          return result;
+        }
+
+        return this.field.items;
+
       }
-
-      return this.field.items;
-
     }
   },
   methods: {
