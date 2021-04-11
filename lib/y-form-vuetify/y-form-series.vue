@@ -105,7 +105,7 @@ export default {
       this.ids = this.target[this.field.key].map(() => this.$uuid());
     },
     revalidateAll() {
-      this.$refs.nestedForms.forEach(it => it.revalidateAll?.());
+      this.$refs.nestedForms?.forEach(it => it.revalidateAll?.());
     },
     async addItem() {
 
