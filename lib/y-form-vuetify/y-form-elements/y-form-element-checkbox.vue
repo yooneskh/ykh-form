@@ -10,7 +10,7 @@
       :readonly="field.readonly"
       class="mt-0 pt-0"
       @change="handleChange"
-      :style="`position: absolute; top: 50%; transform: translateY(${field.message ? '-50%' : '-70%'});`"
+      :style="`position: absolute; top: 60%; transform: translateY(${field.message ? '-50%' : '-70%'});`"
       :error="field.error"
       :success="field.success"
       :messages="field.message"

@@ -8,34 +8,40 @@
       </v-btn>
     </v-label>
 
-    <v-row class="my-0 mx-n3">
-      <v-col v-for="(item, index) in target[field.key]" :key="ids[index]" class="series-item py-0" :cols="field.preemptWidth ? field.itemWidth || 12 : 12" :md="field.itemWidth || 12" :style="{ 'margin-top': index > 0 ? `${field.itemTopMargin}px` : '' }">
+    <v-row dense>
+      <v-col v-for="(item, index) in target[field.key]" :key="ids[index]" class="series-item" :cols="field.preemptWidth ? field.itemWidth || 12 : 12" :md="field.itemWidth || 12">
+        <v-card outlined class="pa-2" style="position: relative;">
 
-        <y-form
-          :target="item"
-          :fields="injectedItemFields"
-          :target-index="index"
-          ref="nestedForms"
-          @update:valid="$set(validations, ids[index], $event)"
-          @update:key="$emit('update:key', field.key, target[field.key])"
-        />
+          <div class="part-container" style="pointer-events: none;">
+            مورد {{ index + 1 }}
+          </div>
 
-        <div class="actions-container" :style="{[$vuetify.rtl ? 'left' : 'right']: '8px'}">
+          <y-form
+            :target="item"
+            :fields="injectedItemFields"
+            :target-index="index"
+            ref="nestedForms"
+            @update:valid="$set(validations, ids[index], $event)"
+            @update:key="$emit('update:key', field.key, target[field.key])"
+          />
 
-          <v-btn v-if="!field.readonly && !field.disabled && index > 0" icon x-small @click="moveIndexBack(index)">
-            <v-icon>mdi-chevron-up</v-icon>
-          </v-btn>
+          <div class="part-container" :style="{[$vuetify.rtl ? 'left' : 'right']: '8px'}">
 
-          <v-btn v-if="!field.readonly && !field.disabled && index < (target[field.key] || []).length - 1" icon x-small @click="moveIndexForward(index)">
-            <v-icon>mdi-chevron-down</v-icon>
-          </v-btn>
+            <v-btn v-if="!field.readonly && !field.disabled && index > 0" icon x-small @click="moveIndexBack(index)">
+              <v-icon>mdi-chevron-up</v-icon>
+            </v-btn>
 
-          <v-btn v-if="!field.readonly && !field.disabled" icon x-small @click="removeItem(index)">
-            <v-icon color="error" x-small>mdi-close</v-icon>
-          </v-btn>
+            <v-btn v-if="!field.readonly && !field.disabled && index < (target[field.key] || []).length - 1" icon x-small @click="moveIndexForward(index)">
+              <v-icon>mdi-chevron-down</v-icon>
+            </v-btn>
 
-        </div>
+            <v-btn v-if="!field.readonly && !field.disabled" icon x-small @click="removeItem(index)">
+              <v-icon color="error" x-small>mdi-close</v-icon>
+            </v-btn>
 
+          </div>
+
+        </v-card>
       </v-col>
     </v-row>
 
@@ -99,7 +105,7 @@ export default {
       this.ids = this.target[this.field.key].map(() => this.$uuid());
     },
     revalidateAll() {
-      this.$refs.nestedForms.forEach(it => it.revalidateAll?.());
+      this.$refs.nestedForms?.forEach(it => it.revalidateAll?.());
     },
     async addItem() {
 
@@ -184,7 +190,7 @@ export default {
 <style lang="scss" scoped>
   .series-item {
     position: relative;
-    & > .actions-container {
+    & > .v-card > .part-container {
       position: absolute;
       top: 0px;
       opacity: 0;
@@ -192,7 +198,7 @@ export default {
       transition: all 0.2s ease-in-out;
     }
   }
-  .series-item:hover > .actions-container {
+  .series-item:hover > .v-card > .part-container {
     opacity: 1;
     pointer-events: all;
   }
