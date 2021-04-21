@@ -60,9 +60,9 @@ export default {
     filteredValidatedFields() {
       return this.filteredFields.map(field => ({
         ...field,
-        error: this.validations[field.key] === false || typeof this.validations[field.key] === 'string',
-        success: this.validations[field.key] === true,
-        message: typeof this.validations[field.key] === 'string' ? (this.validations[field.key] || 'مقدار وارد شده صحیح نیست!') : undefined
+        error: (this.validations[field.key] === false || typeof this.validations[field.key] === 'string') || field.error,
+        success: (this.validations[field.key] === true) || field.success,
+        message: (typeof this.validations[field.key] === 'string' ? (this.validations[field.key] || 'مقدار وارد شده صحیح نیست!') : undefined) || field.message
       }));
     }
   },
