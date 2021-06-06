@@ -15,7 +15,7 @@
     :class="field.classes"
     :pattern="field.pattern"
     :autocomplete="field.autocomplete"
-    :dir="field.dir"
+    :dir="type === 'number' ? 'ltr' : field.dir"
     :disabled="field.disabled"
     :readonly="field.readonly"
     :autofocus="field.autofocus"
