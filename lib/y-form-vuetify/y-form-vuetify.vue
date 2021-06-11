@@ -115,7 +115,10 @@ export default {
       const isAnyUnvalidated = nonValidatedField.length === 0;
 
       this.$emit('update:valid', isValid && isAnyUnvalidated);
-      this.validations = newValidations;
+
+      if (JSON.stringify(this.validations) !== JSON.stringify(newValidations)) {
+        this.validations = newValidations;
+      }
 
     },
     handleInput(field, text, auxiliaryValue) {
