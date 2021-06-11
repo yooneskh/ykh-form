@@ -85,9 +85,6 @@ export default {
     },
     recomputeKey() {
       this.checkValidations();
-    },
-    filteredFields() {
-      this.trimTarget();
     }
   },
   methods: {
@@ -95,21 +92,30 @@ export default {
       return `y-form-element-${field.type}`;
     },
     revalidateAll() {
-      this.$refs.fieldElements?.forEach(it => {
-        it.revalidateAll?.();
-        it.validateValue?.();
-      });
+      for (const element of this.$refs.fieldElements || []) {
+        element.revalidateAll?.();
+        element.validateValue?.();
+      }
     },
     checkValidations() {
 
-      const isValid = Object.values(this.validations).filter(v => v !== undefined).every(v => v === true);
+      const newValidations = { ...this.validations };
 
-      const allFieldKeysWithRules = this.filteredFields.filter(field => !!field.rules && field.rules.length > 0).map(f => f.key);
-      const validatedFieldKeys = Object.keys(this.validations);
+      for (const key of Object.keys(newValidations)) {
+        if (!this.filteredFields.find(it => it.key === key)) {
+          delete newValidations[key];
+        }
+      }
+
+      const isValid = Object.values(newValidations).filter(v => v !== undefined).every(v => v === true);
+
+      const allFieldKeysWithRules = this.filteredFields.filter(field => field.rules?.length > 0).map(f => f.key);
+      const validatedFieldKeys = Object.keys(newValidations);
       const nonValidatedField = allFieldKeysWithRules.filter(key => !validatedFieldKeys.includes(key));
       const isAnyUnvalidated = nonValidatedField.length === 0;
 
       this.$emit('update:valid', isValid && isAnyUnvalidated);
+      this.validations = newValidations;
 
     },
     handleInput(field, text, auxiliaryValue) {
@@ -153,17 +159,6 @@ export default {
 
       this.$emit('update:key', field.key, this.target[field.key]);
       this.recomputeKey = Math.random() + 0.44;
-
-    },
-    trimTarget() {
-
-      const validTargetKeys = this.filteredFields.map(it => it.key);
-
-      for (const key of Object.keys(this.target)) {
-        if (!validTargetKeys.includes(key)) {
-          this.$delete(this.target, key);
-        }
-      }
 
     }
   }
