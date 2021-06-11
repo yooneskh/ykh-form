@@ -18,6 +18,16 @@
 </template>
 
 <script>
+
+import { conforms } from '../util/validation';
+import YFormElementText from './y-form-elements/y-form-element-text.vue';
+import YFormElementCheckbox from './y-form-elements/y-form-element-checkbox.vue';
+import YFormElementCheckboxes from './y-form-elements/y-form-element-checkboxes.vue';
+import YFormElementSelect from './y-form-elements/y-form-element-select.vue';
+import YFormElementRadios from './y-form-elements/y-form-element-radios.vue';
+import YFormElementTextarea from './y-form-elements/y-form-element-textarea.vue';
+import YFormElementSimpleFile from './y-form-elements/y-form-element-simple-file.vue';
+
 export default {
   name: 'YFormVuetify',
   props: {
@@ -37,13 +47,13 @@ export default {
     noBottomPadding: Boolean
   },
   components: {
-    'y-form-element-text': require('./y-form-elements/y-form-element-text.vue').default,
-    'y-form-element-checkbox': require('./y-form-elements/y-form-element-checkbox.vue').default,
-    'y-form-element-checkboxes': require('./y-form-elements/y-form-element-checkboxes.vue').default,
-    'y-form-element-select': require('./y-form-elements/y-form-element-select.vue').default,
-    'y-form-element-radios': require('./y-form-elements/y-form-element-radios.vue').default,
-    'y-form-element-textarea': require('./y-form-elements/y-form-element-textarea.vue').default,
-    'y-form-element-simple-file': require('./y-form-elements/y-form-element-simple-file.vue').default,
+    'y-form-element-text': YFormElementText,
+    'y-form-element-checkbox': YFormElementCheckbox,
+    'y-form-element-checkboxes': YFormElementCheckboxes,
+    'y-form-element-select': YFormElementSelect,
+    'y-form-element-radios': YFormElementRadios,
+    'y-form-element-textarea': YFormElementTextarea,
+    'y-form-element-simple-file': YFormElementSimpleFile,
     'y-form-element-series': () => import('./y-form-series' /* webpackChunkName: 'y-form-series' */),
     'y-form-element-color': () => import('./y-form-elements/y-form-element-color.vue' /* webpackChunkName: 'y-form-element-color' */),
     'y-form-element-date': () => import('./y-form-elements/y-form-element-date.vue' /* webpackChunkName: 'y-form-element-date' */),
@@ -55,7 +65,7 @@ export default {
   }),
   computed: {
     filteredFields() {
-      return this.recomputeKey && this.fields.filter(it => !it.vIf || it.vIf(this.target));
+      return (this.recomputeKey + 1) && this.fields.filter(it => !it.vIf || conforms(this.target, it.vIf));
     },
     filteredValidatedFields() {
       return this.filteredFields.map(field => ({
@@ -75,6 +85,9 @@ export default {
     },
     recomputeKey() {
       this.checkValidations();
+    },
+    filteredFields() {
+      this.trimTarget();
     }
   },
   methods: {
@@ -154,5 +167,6 @@ export default {
 
     }
   }
-}
+};
+
 </script>

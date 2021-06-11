@@ -16,6 +16,7 @@
   "author": "Yoones Khoshghadam",
   "license": "ISC",
   "dependencies": {
+    "mingo": "4.1.2",
     "moment-jalaali": "^0.9.2",
     "vue-persian-datetime-picker": "2.6.1"
   }

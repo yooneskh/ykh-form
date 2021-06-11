@@ -55,6 +55,11 @@ jalaali-js@^1.1.0:
   resolved "https://registry.yarnpkg.com/jalaali-js/-/jalaali-js-1.1.5.tgz#a2cd4627c3c61588a81877df1d3098869213e985"
   integrity sha512-eS+zDRtz2JcGnVPWeng53rzlKU8tX2RWbJ1cqu1+eZHPEh1QL5ydB+pXD4RCf/zE3eKDN2bLQEjY0u/WIewMVQ==
 
+mingo@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/mingo/-/mingo-4.1.2.tgz#c8b96c6a78fe9b37b42ea1264d785c8e5cd9eb02"
+  integrity sha512-WQKhtFDV7nRIMlPP7tfo0Zx4bpvmhfBuHKvNPA9DbISjYJtrU4g1kacQPxPhMSEebJ6tGz7pHXDzQOyANpJ9jA==
+
 minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
