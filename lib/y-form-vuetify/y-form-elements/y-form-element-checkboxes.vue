@@ -9,8 +9,8 @@
       v-for="(item, index) in fieldItems"
       :key="item.value"
       hide-details
-      :label="item.text"
-      :value="item.value"
+      :label="itemTextOf(item)"
+      :value="itemValueOf(item)"
       :dir="field.dir"
       :disabled="field.disabled"
       :readonly="field.readonly"
@@ -75,6 +75,36 @@ export default {
     }
   },
   methods: {
+    itemValueOf(item) {
+
+      if (this.field.itemValue) {
+        if (typeof this.field.itemValue === 'function') {
+          return this.field.itemValue(item);
+        }
+        else {
+          return item[this.field.itemValue];
+        }
+      }
+
+      if ('value' in item) return item.value;
+      return item;
+
+    },
+    itemTextOf(item) {
+
+      if (this.field.itemText) {
+        if (typeof this.field.itemText === 'function') {
+          return this.field.itemText(item);
+        }
+        else {
+          return item[this.field.itemText];
+        }
+      }
+
+      if ('text' in item) return item.text;
+      return item;
+
+    },
     async handleChange(value, item) {
       this.$emit('input', value, item.value);
       await this.$nextTick();
