@@ -26,20 +26,20 @@
     :hint="typeof field.hint === 'function' ? field.hint(value) : field.hint"
     persistent-hint
     :hide-details="!field.message && !field.hint">
-    <template v-if="field.password || field.locales" #append>
+    <template v-if="field.password || field.variants" #append>
 
       <v-icon v-if="field.password && !field.disabled" class="ms-2" @click="revealed = !revealed">
         {{ revealed ? 'mdi-eye-off' : 'mdi-eye' }}
       </v-icon>
 
-      <v-menu v-if="field.locales" absolute>
+      <v-menu v-if="field.variants" absolute>
         <template #activator="{ on, attrs }">
           <v-btn rounded small text v-on="on" v-bind="attrs" class="px-2" min-width="0">
             {{ currentLanguage }}
           </v-btn>
         </template>
         <v-list dense>
-          <v-list-item v-for="(value, key) of field.locales" :key="key" @click="changeLanguageTo(key)">
+          <v-list-item v-for="(value, key) of field.variants" :key="key" @click="changeLanguageTo(key)">
             <v-list-item-content>
               <v-list-item-title>{{ key }}</v-list-item-title>
             </v-list-item-content>
@@ -94,7 +94,7 @@ export default {
 
     },
     currentValue() {
-      if (!this.field.locales) return this.value;
+      if (!this.field.variants) return this.value;
 
       if (!this.value) return '';
       return this.value[this.currentLanguage];
@@ -102,9 +102,9 @@ export default {
     }
   },
   created() {
-    if (this.field.locales) {
-      this.currentLanguage = Object.keys(this.field.locales)[0];
-      if (!this.value) this.$emit('input', {});
+    if (this.field.variants) {
+      this.currentLanguage = Object.keys(this.field.variants)[0];
+      if (!this.value || typeof this.value !== 'object' || Array.isArray(this.value)) this.$emit('input', {});
     }
   },
   methods: {
@@ -119,7 +119,7 @@ export default {
     async handleInput(text) {
       if (this.currentLanguageChanged) return;
 
-      if (this.field.locales) {
+      if (this.field.variants) {
         this.$set(this.value, this.currentLanguage, text);
         this.$emit('input', this.value);
         await this.$nextTick();
