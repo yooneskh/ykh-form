@@ -1,6 +1,6 @@
 {
   "name": "ykh-form",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Simplify working with form in Vuejs + Vuetify",
   "main": "index.js",
   "scripts": {
