@@ -120,11 +120,17 @@ export default {
       if (this.currentLanguageChanged) return;
 
       if (this.field.variants) {
-        this.$set(this.value, this.currentLanguage, text);
+
+        const value = this.field.number ? parseFloat(text || this.field.defaultNumber || '0', this.field.radix || 10) : text;
+
+        this.$set(this.value, this.currentLanguage, value);
         this.$emit('input', this.value);
+
         await this.$nextTick();
         if (!this.field.lazy) this.validateValue();
+
         return;
+
       }
 
       this.$emit('input', text);
