@@ -18,6 +18,6 @@
   "dependencies": {
     "mingo": "4.1.3",
     "moment-jalaali": "0.9.4",
-    "vue-persian-datetime-picker": "2.6.1"
+    "vue-persian-datetime-picker": "2.10.3"
   }
 }
