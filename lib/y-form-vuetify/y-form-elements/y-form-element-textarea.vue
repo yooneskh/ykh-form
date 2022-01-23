@@ -88,11 +88,20 @@ export default {
       if (this.currentLanguageChanged) return;
 
       if (this.field.variants) {
-        this.$set(this.value, this.currentLanguage, text);
-        this.$emit('input', this.value);
+
+        this.$emit(
+          'input',
+          {
+            ...(this.value || {}),
+            [this.currentLanguage]: value
+          }
+        );
+
         await this.$nextTick();
         if (!this.field.lazy) this.validateValue();
+
         return;
+
       }
 
       this.$emit('input', text);

@@ -123,8 +123,13 @@ export default {
 
         const value = this.field.number ? parseFloat(text || this.field.defaultNumber || '0', this.field.radix || 10) : text;
 
-        this.$set(this.value, this.currentLanguage, value);
-        this.$emit('input', this.value);
+        this.$emit(
+          'input',
+          {
+            ...(this.value || {}),
+            [this.currentLanguage]: value
+          }
+        );
 
         await this.$nextTick();
         if (!this.field.lazy) this.validateValue();
