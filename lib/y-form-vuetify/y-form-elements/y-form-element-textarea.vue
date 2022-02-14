@@ -93,7 +93,7 @@ export default {
           'input',
           {
             ...(this.value || {}),
-            [this.currentLanguage]: value
+            [this.currentLanguage]: text
           }
         );
 
